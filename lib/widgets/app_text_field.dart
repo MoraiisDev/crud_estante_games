@@ -1,3 +1,4 @@
+// Campo de texto padronizado com ícone e validação, reutilizado nos formulários.
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {

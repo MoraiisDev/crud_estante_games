@@ -1,3 +1,4 @@
+// Tela de cadastro: valida os dados e cria a conta no Firebase.
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
@@ -37,8 +38,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: _emailCtrl.text,
         password: _passCtrl.text,
       );
-      // Após o cadastro o usuário já fica logado: fecha as telas empilhadas
-      // para o AuthGate (raiz) exibir a Home.
+      // Após o cadastro o usuário já fica logado. Fecha as telas empilhadas
+      // (volta à raiz) para o AuthGate exibir a Home.
       if (mounted) Navigator.popUntil(context, (route) => route.isFirst);
     } on AuthException catch (e) {
       if (mounted) {
@@ -107,6 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscure: true,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _submit(),
+                    // Compara com o campo de senha para garantir que coincidem
                     validator: (v) =>
                         v != _passCtrl.text ? 'As senhas não coincidem' : null,
                   ),

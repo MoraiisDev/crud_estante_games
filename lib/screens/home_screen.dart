@@ -1,3 +1,4 @@
+// Tela principal: lista os jogos do usuário com busca e filtro por status e dá acesso a criar, editar, excluir e sair.  
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -16,9 +17,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _db = DatabaseService();
   final _auth = AuthService();
-  String _search = '';
-  String _filter = 'Todos';
+  String _search = ''; // texto digitado na busca
+  String _filter = 'Todos'; // status selecionado nos chips
 
+  /// Pede confirmação e exclui o jogo. Usa try/catch para avisar se o banco falhar.
   Future<void> _confirmDelete(Game game) async {
     final ok = await showDialog<bool>(
       context: context,
@@ -49,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
   }
-
+  /// Pede confirmação e encerra a sessão. A volta ao login é feita pelo AuthGate.
   Future<void> _logout() async {
     final ok = await showDialog<bool>(
       context: context,
@@ -128,6 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
+                // Os filtros são aplicados no app, sobre a lista já carregada
+                // (busca por título + status). Não geram novas consultas ao banco.
                 final games = snapshot.data!.where((g) {
                   final matchSearch = g.title.toLowerCase().contains(_search);
                   final matchFilter = _filter == 'Todos' || g.status == _filter;
@@ -145,6 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: games.length,
                   itemBuilder: (_, i) => GameCard(
                     game: games[i],
+                    // Tocar no card abre o formulário em modo edição,
+                    // passando o jogo como argumento.
                     onTap: () => Navigator.pushNamed(
                         context, AppRoutes.gameForm,
                         arguments: games[i]),

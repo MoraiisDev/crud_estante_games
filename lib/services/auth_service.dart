@@ -1,5 +1,7 @@
+// Camada de autenticação: encapsula o Firebase Auth para que as telas não dependam diretamente dele.   
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// Erro de autenticação com mensagem já traduzida e pronta para exibir ao usuário.
 class AuthException implements Exception {
   final String message;
   AuthException(this.message);
@@ -10,9 +12,12 @@ class AuthException implements Exception {
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  /// Emite um evento sempre que o usuário entra ou sai. Usado pelo AuthGate.
   Stream<User?> get authState => _auth.authStateChanges();
   User? get currentUser => _auth.currentUser;
 
+  /// Cria a conta e grava o nome no perfil (displayName).
+  /// Lança [AuthException] se o cadastro falhar (e-mail em uso, senha fraca, etc.)
   Future<void> register({
     required String name,
     required String email,
@@ -29,6 +34,7 @@ class AuthService {
     }
   }
 
+  /// Autentica com e-mail e senha. Lança [AuthException] em caso de falha.
   Future<void> login({required String email, required String password}) async {
     try {
       await _auth.signInWithEmailAndPassword(
@@ -39,9 +45,11 @@ class AuthService {
       throw AuthException(_translate(e.code));
     }
   }
-
+  
+  /// Encerra a sessão. O AuthGate leva o app de volta ao login.
   Future<void> logout() => _auth.signOut();
 
+  /// Traduz os códigos de erro do Firebase para mensagens em português.
   String _translate(String code) {
     switch (code) {
       case 'email-already-in-use':

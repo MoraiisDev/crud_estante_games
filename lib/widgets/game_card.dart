@@ -1,3 +1,5 @@
+// Card que exibe um jogo na lista. Não acessa o banco: recebe os dados e
+// avisa a tela, por callbacks, quando o usuário toca ou exclui.
 import 'package:flutter/material.dart';
 
 import '../models/game.dart';
@@ -14,6 +16,7 @@ class GameCard extends StatelessWidget {
     required this.onDelete,
   });
 
+  /// Cor do status, para identificar o progresso do jogo rapidamente.
   Color _statusColor() {
     switch (game.status) {
       case 'Jogando':

@@ -1,8 +1,10 @@
+// Ponto de entrada do app: inicializa o Firebase, define as rotas nomeadas
+// e protege as telas com o AuthGate.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'firebase_options.dart'; // gerado por: flutterfire configure
+import 'firebase_options.dart';
 import 'models/game.dart';
 import 'screens/game_form_screen.dart';
 import 'screens/home_screen.dart';
@@ -16,6 +18,7 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+/// Nomes das rotas centralizados para evitar erros de digitação nas chamadas de Navigator.pushNamed.
 class AppRoutes {
   static const login = '/login';
   static const register = '/register';
@@ -41,6 +44,9 @@ class MyApp extends StatelessWidget {
       ),
       // AuthGate decide entre Login e Home conforme o estado de autenticação.
       home: const AuthGate(),
+
+      // Gera as rotas sob demanda. As rotas protegidas (home e formulário)
+      // verificam se há usuário logado; se não houver, mostram o login.
       onGenerateRoute: (settings) {
         final loggedIn = FirebaseAuth.instance.currentUser != null;
 
@@ -55,6 +61,7 @@ class MyApp extends StatelessWidget {
               builder: (_) => loggedIn ? const HomeScreen() : const LoginScreen(),
             );
           case AppRoutes.gameForm:
+            // O jogo chega como argumento: null = criar, preenchido = editar.
             final game = settings.arguments as Game?;
             return MaterialPageRoute(
               builder: (_) =>

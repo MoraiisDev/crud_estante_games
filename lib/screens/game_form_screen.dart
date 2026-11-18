@@ -4,7 +4,8 @@ import '../models/game.dart';
 import '../services/database_service.dart';
 import '../widgets/app_text_field.dart';
 
-/// Tela usada para CRIAR (game == null) e EDITAR (game != null).
+/// Formulário usado para criar e editar jogos.
+/// Se [game] for null cria um novo; se vier preenchido, edita o existente.
 class GameFormScreen extends StatefulWidget {
   final Game? game;
   const GameFormScreen({super.key, this.game});
@@ -24,6 +25,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   late int _rating;
   bool _saving = false;
 
+  /// Verdadeiro quando está editando um jogo já existente.
   bool get _isEditing => widget.game != null;
 
   @override
@@ -46,6 +48,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
     super.dispose();
   }
 
+  /// Valida o formulário e grava no Firestore (add ou update conforme o modo).
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _saving = true);
@@ -58,10 +61,12 @@ class _GameFormScreenState extends State<GameFormScreen> {
         status: _status,
         rating: _rating,
         notes: _notesCtrl.text.trim(),
-        createdAt: widget.game?.createdAt,
+        createdAt: widget.game?.createdAt, // mantém a data original ao editar
       );
       _isEditing ? await _db.updateGame(game) : await _db.addGame(game);
       if (!mounted) return;
+      // Guarda o messenger antes do pop: depois que a tela fecha, o context
+      // dela não pode mais ser usado com segurança.
       final messenger = ScaffoldMessenger.of(context);
       Navigator.pop(context);
       messenger.showSnackBar(SnackBar(

@@ -1,3 +1,4 @@
+// Tela de login: valida o formulário e chama o AuthService. 
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -25,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  /// Valida os campos e tenta o login. Em caso de sucesso não é preciso
+  /// navegar: o AuthGate detecta o usuário logado e troca para a Home.
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _loading = true);
@@ -37,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
+      // Reabilita o botão mesmo se der erro
       if (mounted) setState(() => _loading = false);
     }
   }
