@@ -1,6 +1,6 @@
 # 🎮 Estante Virtual de Jogos
 
-Aplicativo mobile desenvolvido em **Flutter** para organizar a coleção pessoal de jogos de cada usuário, com autenticação e banco de dados em nuvem via **Firebase**.
+Aplicativo desenvolvido em **Flutter** para organizar a coleção pessoal de jogos de cada usuário, com autenticação e banco de dados em nuvem via **Firebase**.
 
 > **Autor:** João Vitor Morias Dias
 > **Disciplina:** Programação para Dispositivos Móveis II
