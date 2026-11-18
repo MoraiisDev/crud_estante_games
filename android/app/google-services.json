@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347568950294",
+    "project_id": "estante-games-jvmd",
+    "storage_bucket": "estante-games-jvmd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347568950294:android:9486cd57a0a8e95538b937",
+        "android_client_info": {
+          "package_name": "com.example.estante_virtual_jogos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-niW9aU-z_42OGV-e3UoXh7EK9BmMxVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
