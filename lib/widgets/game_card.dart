@@ -46,7 +46,7 @@ class GameCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text([game.platform, if (game.genre.isNotEmpty) game.genre].join(' • ')),
+              Text([game.platform, if (game.genre.isNotEmpty) game.genre, if (game.releaseYear != null) game.releaseYear.toString(),].join(' • ')),
               const SizedBox(height: 2),
               Row(
                 children: [

@@ -22,6 +22,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   late final TextEditingController _notesCtrl;
   late String _platform;
   late String _status;
+  late final TextEditingController _yearCtrl;
   late int _rating;
   bool _saving = false;
 
@@ -37,6 +38,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
     _notesCtrl = TextEditingController(text: g?.notes ?? '');
     _platform = g?.platform ?? kPlatforms.first;
     _status = g?.status ?? kStatuses.first;
+    _yearCtrl = TextEditingController(text: g?.releaseYear?.toString() ?? '');
     _rating = g?.rating ?? 0;
   }
 
@@ -45,6 +47,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
     _titleCtrl.dispose();
     _genreCtrl.dispose();
     _notesCtrl.dispose();
+    _yearCtrl.dispose();
     super.dispose();
   }
 
@@ -59,6 +62,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
         platform: _platform,
         genre: _genreCtrl.text.trim(),
         status: _status,
+        releaseYear: int.tryParse(_yearCtrl.text.trim()),
         rating: _rating,
         notes: _notesCtrl.text.trim(),
         createdAt: widget.game?.createdAt, // mantém a data original ao editar
@@ -123,7 +127,22 @@ class _GameFormScreenState extends State<GameFormScreen> {
                 onChanged: (v) => setState(() => _status = v!),
               ),
               const SizedBox(height: 16),
-              const Text('Nota'),
+              AppTextField(
+                controller: _yearCtrl,
+                label: 'Ano de lançamento',
+                icon: Icons.calendar_today_outlined,
+                keyboardType: TextInputType.number,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty)
+                    return null;
+                  final year = int.tryParse(v.trim());
+                  if (year == null) return 'Digite apenas números';
+                  if (year < 1950 || year > DateTime.now().year + 2)
+                    return 'Ano inválido';
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
               Row(
                 children: List.generate(
                   5,

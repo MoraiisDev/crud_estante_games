@@ -14,6 +14,7 @@ class Game {
   final String title;
   final String platform;
   final String genre;
+  final int? releaseYear;
   final String status;
   final int rating; // 0 a 5
   final String notes;
@@ -25,6 +26,7 @@ class Game {
     required this.title,
     required this.platform,
     required this.genre,
+    this.releaseYear, 
     required this.status,
     this.rating = 0,
     this.notes = '',
@@ -41,6 +43,7 @@ class Game {
       platform: d['platform'] ?? kPlatforms.first,
       genre: d['genre'] ?? '',
       status: d['status'] ?? kStatuses.first,
+      releaseYear: d['releaseYear'] as int?,
       rating: (d['rating'] ?? 0) as int,
       notes: d['notes'] ?? '',
       createdAt: (d['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
@@ -54,6 +57,7 @@ class Game {
         'platform': platform,
         'genre': genre,
         'status': status,
+        'releaseYear': releaseYear,
         'rating': rating,
         'notes': notes,
         'createdAt': Timestamp.fromDate(createdAt),

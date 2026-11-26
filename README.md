@@ -143,6 +143,7 @@ users (coleção)
                 ├── platform   : string
                 ├── genre      : string
                 ├── status     : string   (Quero jogar | Jogando | Zerado | Abandonado)
+                ├── releaseYear: number (opcional)
                 ├── rating     : number   (0 a 5)
                 ├── notes      : string
                 └── createdAt  : timestamp
